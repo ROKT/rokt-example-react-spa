@@ -147,3 +147,7 @@ export function ConfirmationPage() {
   )
 }
 ```
+
+
+### License
+Please see [LICENSE](/LICENSE.md)
