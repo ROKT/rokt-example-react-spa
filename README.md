@@ -1,6 +1,6 @@
 # React SPA Integration
 
-Integrating Rokt into an SPA requires a bit more consideration when compared to a standard multi page applications, this is because single page applications preserve the state between page transitions, operating more like native apps than traditional web sites.
+Integrating Rokt into an SPA requires a bit more consideration when compared to standard multi page applications, this is because single page applications preserve the state between page transitions, operating more like native apps than traditional web sites.
 
 In the case of an SPA, Rokt should be launched once as a singleton and the singleton interacted with when a placement is ready to be rendered. 
 
