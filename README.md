@@ -102,7 +102,7 @@ ReactDOM.render(
   </RoktContextProvider>
 )
 ```
-You have to set `sandbox` to `false` when deploying to prod
+You have to set `sandbox` to `false` when deploying to production.
 
 ### On the Route
 
