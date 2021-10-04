@@ -39,7 +39,8 @@ export function RoktContextProvider({
       const script =
         windowRef.document.createElement('script')
       script.type = 'text/javascript'
-      script.src = 'https://apps.rokt.com/wsdk/integrations/snippet.js'
+      script.src =
+        'https://apps.rokt.com/wsdk/integrations/snippet.js'
       script.crossOrigin = 'anonymous'
       script.async = true
       target.appendChild(script)
@@ -49,6 +50,16 @@ export function RoktContextProvider({
   function setAttributes(attributes) {
     roktLoaded.then((rokt) => {
       rokt.setAttributes(attributes)
+    })
+  }
+
+  function setPositiveEngagementAttributes(
+    attributes,
+  ) {
+    roktLoaded.then((rokt) => {
+      rokt.onPositiveEngagement(() => {
+        rokt.setAttributes(attributes)
+      })
     })
   }
 
@@ -68,6 +79,7 @@ export function RoktContextProvider({
 
   const roktWrapper = {
     setAttributes,
+    setPositiveEngagementAttributes,
     triggerPageChange,
     closeAll,
   }
