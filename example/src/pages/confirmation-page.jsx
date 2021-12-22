@@ -1,31 +1,24 @@
-import React, { useEffect, useRef } from 'react'
-import { useRokt } from '../context/rokt'
+import React, { useEffect } from 'react';
+import { useRokt } from '../context/rokt';
 
 export function ConfirmationPage() {
-  const rokt = useRokt()
-  const placeholderRef = useRef(null)
+  const rokt = useRokt();
 
   useEffect(() => {
-    if (!placeholderRef.current) {
-      return
-    }
     rokt.setAttributes({
       email: 'user@example.com',
-    })
-    rokt.triggerPageChange('checkout.page')
+    });
+    rokt.triggerPageChange('checkout.page');
 
     return () => {
-      rokt.closeAll()
-    }
-  }, [placeholderRef.current, rokt])
+      rokt.closeAll();
+    };
+  }, [rokt]);
 
   return (
     <div>
       <h1>Confirmation Page</h1>
-      <div
-        ref={placeholderRef}
-        id="rokt-placeholder"
-      />
+      <div id="rokt-placeholder"/>
     </div>
-  )
+  );
 }

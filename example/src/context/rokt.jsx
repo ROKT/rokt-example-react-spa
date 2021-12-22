@@ -1,15 +1,12 @@
 import React, {
-  createContext,
-  useContext,
-  useMemo,
-} from 'react'
+  createContext, useContext, useMemo,
+} from 'react';
 
-export const RoktContext = createContext()
-export const RoktContextConsumer =
-  RoktContext.Consumer
+export const RoktContext = createContext();
+export const RoktContextConsumer = RoktContext.Consumer;
 
 export function useRokt() {
-  return useContext(RoktContext)
+  return useContext(RoktContext);
 }
 
 export function RoktContextProvider({
@@ -18,63 +15,59 @@ export function RoktContextProvider({
   sandbox = false,
   windowRef = window,
 }) {
-  const roktLoaded = useMemo(() => {
-    return new Promise((resolve) => {
-      windowRef._ROKT_ = 'rokt'
+  const roktWrapper = useMemo(() => {
+    const roktLoaded = new Promise((resolve) => {
+      windowRef._ROKT_ = 'rokt';
       windowRef.rokt = {
         id: tagId,
         lc: [
           (rokt) =>
-            rokt.init({
-              skipInitialSelection: true,
-              sandbox,
-            }),
+              rokt.init({
+                skipInitialSelection: true,
+                sandbox,
+              }),
           (rokt) => resolve(rokt),
         ],
         it: new Date(),
-      }
-      const target =
-        windowRef.document.head ||
-        windowRef.document.body
-      const script =
-        windowRef.document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = 'https://apps.rokt.com/wsdk/integrations/snippet.js'
-      script.crossOrigin = 'anonymous'
-      script.async = true
-      target.appendChild(script)
-    })
-  }, [tagId, sandbox])
+      };
 
-  function setAttributes(attributes) {
-    roktLoaded.then((rokt) => {
-      rokt.setAttributes(attributes)
-    })
-  }
+      const target = windowRef.document.head || windowRef.document.body;
+      const script = windowRef.document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://apps.rokt.com/wsdk/integrations/snippet.js';
+      script.crossOrigin = 'anonymous';
+      script.async = true;
+      target.appendChild(script);
+    });
 
-  function triggerPageChange(pageIdentifier) {
-    roktLoaded.then((rokt) => {
-      rokt.triggerPageChange({
-        pageIdentifier,
-      })
-    })
-  }
+    function setAttributes(attributes) {
+      roktLoaded.then((rokt) => {
+        rokt.setAttributes(attributes);
+      });
+    }
 
-  function closeAll() {
-    roktLoaded.then((rokt) => {
-      rokt.closeAll()
-    })
-  }
+    function triggerPageChange(pageIdentifier) {
+      roktLoaded.then((rokt) => {
+        rokt.triggerPageChange({
+          pageIdentifier,
+        });
+      });
+    }
 
-  const roktWrapper = {
-    setAttributes,
-    triggerPageChange,
-    closeAll,
-  }
+    function closeAll() {
+      roktLoaded.then((rokt) => {
+        rokt.closeAll();
+      });
+    }
+
+    return {
+      setAttributes, triggerPageChange, closeAll,
+    };
+  }, [tagId, sandbox]);
 
   return (
     <RoktContext.Provider value={roktWrapper}>
       {children}
     </RoktContext.Provider>
-  )
+  );
 }
